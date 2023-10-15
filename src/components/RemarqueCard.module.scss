@@ -1,0 +1,22 @@
+@use "/src/styles/colors.scss" as *;
+
+.container {
+  position: relative;
+}
+
+.remarqueTitle {
+  font-weight: 400;
+  color: $black-500;
+  font-size: 1rem;
+}
+
+.removeButton {
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: $white-100;
+  border: 1px solid $black-300;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+}
