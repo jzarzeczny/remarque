@@ -3,7 +3,7 @@ export type NodeType = "header" | "content" | "image";
 export interface Remarque {
   id: string;
   frontPage: FrontPage;
-  subPage?: { [key: string]: SubPage };
+  subPage?: SubPage[];
 }
 
 export interface FrontPage {
@@ -11,7 +11,7 @@ export interface FrontPage {
 }
 
 export interface SubPage {
-  title: string;
+  id: string;
   nodes: SubPageNode[];
 }
 
