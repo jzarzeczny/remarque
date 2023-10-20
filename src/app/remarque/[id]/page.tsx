@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import styles from "./page.module.scss";
-import { Suspense, useContext } from "react";
+import { useContext } from "react";
 import { getFromLocalStorage, saveToLocalStorage } from "@/utils/localStorage";
-import { Remarque, SubPage } from "@/interfaces/remarques";
-import { generateRandomId } from "@/utils/utils";
+import { Remarque } from "@/interfaces/remarques";
 import { RemarqueContext } from "./layout";
 
 interface RemarqueIdProps {
@@ -36,7 +34,6 @@ export default function RemarqueId({ params }: RemarqueIdProps) {
     };
 
     setRemarque(newRemarque);
-
     const remarques = getFromLocalStorage<Remarque>("remarques");
 
     if (!remarques) {
@@ -51,38 +48,6 @@ export default function RemarqueId({ params }: RemarqueIdProps) {
 
     saveToLocalStorage("remarques", newRemarques);
   }
-
-  const addSubPage = () => {
-    const newSubPage: SubPage = {
-      id: generateRandomId(),
-      nodes: [
-        {
-          content: "title",
-          type: "header",
-        },
-      ],
-    };
-    const remarques = getFromLocalStorage<Remarque>("remarques");
-    if (!remarque) {
-      return;
-    }
-    const newRemarque: Remarque = remarque;
-    if (!newRemarque.subPage) {
-      newRemarque.subPage = [];
-    }
-    newRemarque.subPage?.push(newSubPage);
-
-    const withoutOld = remarques?.filter(
-      (remarque) => remarque.id !== params.id
-    );
-
-    withoutOld?.push(newRemarque);
-
-    setRemarque(newRemarque);
-    if (withoutOld) {
-      saveToLocalStorage("remarques", withoutOld);
-    }
-  };
 
   return (
     <section className={styles.content}>

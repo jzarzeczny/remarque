@@ -6,7 +6,6 @@ import { Remarque, SubPage } from "@/interfaces/remarques";
 import { generateRandomId } from "@/utils/utils";
 import { getFromLocalStorage, saveToLocalStorage } from "@/utils/localStorage";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 
 export const RemarqueContext = createContext<
   | {
@@ -45,7 +44,7 @@ export default function RemarqueLayout({
       id: generateRandomId(),
       nodes: [
         {
-          content: "title",
+          content: "Nowy rozdział",
           type: "header",
         },
       ],
@@ -54,7 +53,7 @@ export default function RemarqueLayout({
     if (!remarque) {
       return;
     }
-    const newRemarque: Remarque = remarque;
+    const newRemarque: Remarque = JSON.parse(JSON.stringify(remarque));
     if (!newRemarque.subPage) {
       newRemarque.subPage = [];
     }
@@ -66,10 +65,14 @@ export default function RemarqueLayout({
 
     withoutOld?.push(newRemarque);
 
-    setRemarque(newRemarque);
+    setRemarque(() => newRemarque);
     if (withoutOld) {
       saveToLocalStorage("remarques", withoutOld);
     }
+  };
+
+  const findTitle = (subPage: SubPage) => {
+    return subPage.nodes.find((node) => node.type === "header")?.content;
   };
 
   return (
@@ -82,13 +85,17 @@ export default function RemarqueLayout({
           <span className={styles.separator} />
           <div className={styles.asideSectionsContainer}>
             {remarque?.subPage &&
-              remarque?.subPage.map((sub, index) => (
-                <div key={index}>
-                  <Link href={`/remarque/${params.id}/${sub.id}`}>
-                    Something
-                  </Link>
-                </div>
-              ))}
+              remarque?.subPage.map((sub) => {
+                const title = findTitle(sub);
+
+                return (
+                  <div className={styles.subPageLink} key={sub.id}>
+                    <Link href={`/remarque/${params.id}/${sub.id}`}>
+                      {title}
+                    </Link>
+                  </div>
+                );
+              })}
           </div>
           <button onClick={addSubPage} className={styles.asideAdd}>
             +

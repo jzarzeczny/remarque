@@ -36,6 +36,18 @@
   margin: 0 1rem;
 }
 
+.subPageLink {
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: 1px solid $gray-300;
+  text-align: center;
+  border-radius: 8px;
+
+  & a {
+    color: $black-500;
+  }
+}
+
 .asideAdd {
   margin-top: 3rem;
   width: 100%;
