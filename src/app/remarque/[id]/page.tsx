@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { getFromLocalStorage, saveToLocalStorage } from "@/utils/localStorage";
 import { Remarque } from "@/interfaces/remarques";
 import { RemarqueContext } from "./layout";
+import { updateRemarqueHeader } from "@/utils/remarque";
 
 interface RemarqueIdProps {
   params: {
@@ -21,41 +22,12 @@ export default function RemarqueId({ params }: RemarqueIdProps) {
 
   const { remarque, setRemarque } = context;
 
-  function update(update: string) {
-    if (!remarque || !update) {
-      return;
-    }
-    const newRemarque: Remarque = {
-      ...remarque,
-      frontPage: {
-        ...remarque.frontPage,
-        title: update,
-      },
-    };
-
-    setRemarque(newRemarque);
-    const remarques = getFromLocalStorage<Remarque>("remarques");
-
-    if (!remarques) {
-      return;
-    }
-
-    const newRemarques = remarques?.filter(
-      (remarque) => remarque.id !== params.id
-    );
-
-    newRemarques.push(newRemarque);
-
-    saveToLocalStorage("remarques", newRemarques);
-  }
-
   return (
     <section className={styles.content}>
       <div
         contentEditable
         onBlur={(ev) => {
-          console.log(ev);
-          update(ev.target.innerText);
+          updateRemarqueHeader(ev.target.innerText, remarque, setRemarque);
         }}
         className={styles.contentHeader}
       >

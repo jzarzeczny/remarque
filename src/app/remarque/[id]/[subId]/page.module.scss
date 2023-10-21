@@ -1,3 +1,33 @@
+@use "@/styles/colors.scss" as *;
+
 .remarqueContent {
   flex: 1 1 100%;
+  position: relative;
+  height: 100%;
+}
+
+.subPageContainer {
+  width: 100%;
+  padding: 1rem 3rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    text-align: center;
+  }
+}
+
+.addElementButton {
+  position: absolute;
+  content: "";
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid $black-300;
+  font-size: 2rem;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
