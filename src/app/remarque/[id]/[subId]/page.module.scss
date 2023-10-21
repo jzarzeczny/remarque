@@ -1,20 +1,25 @@
 @use "@/styles/colors.scss" as *;
 
+@mixin subPageContainer {
+  width: 100%;
+  padding: 1rem 3rem;
+}
+
 .remarqueContent {
   flex: 1 1 100%;
   position: relative;
   height: 100%;
 }
 
-.subPageContainer {
-  width: 100%;
-  padding: 1rem 3rem;
+.subPageHeader {
+  @include subPageContainer();
+  font-size: 2rem;
+  font-weight: 400;
+  text-align: center;
+}
 
-  h1 {
-    font-size: 2rem;
-    font-weight: 400;
-    text-align: center;
-  }
+.subPagePara {
+  @include subPageContainer();
 }
 
 .addElementButton {

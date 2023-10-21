@@ -1,45 +1,74 @@
 import { Remarque, SubPage, SubPageNode } from "@/interfaces/remarques";
-import { getFromLocalStorage, saveToLocalStorage } from "./localStorage";
+import { updateLocalStorageState } from "./localStorage";
 import { RemarqueUrlParams } from "@/interfaces/routes";
+import { RemarqueContext } from "@/app/remarque/[id]/layout";
 
 export function updateSubPage(
-  newNode: SubPageNode,
-  remarque: Remarque,
-  setRemarque: (value: Remarque) => void,
+  node: SubPageNode,
+  context: RemarqueContext,
   urlParams: RemarqueUrlParams
 ) {
-  const remarques = getFromLocalStorage<Remarque>("remarques");
-
-  const subPage = findSubPage(remarque, urlParams.subId);
-
-  subPage.nodes.push(newNode);
+  debugger;
+  const { remarque, setRemarque } = context;
   if (!remarque) {
     throw new Error("Remarque not found");
   }
-  const remarqueWithoutSelectedSub = {
-    ...remarque,
-    subPage: remarque?.subPage?.filter((sub) => sub.id !== urlParams.subId),
-  };
 
-  remarqueWithoutSelectedSub.subPage?.push(subPage);
+  const subPage = findSubPage(remarque, urlParams.subId);
 
-  const remarqueWithNewSub: Remarque = { ...remarqueWithoutSelectedSub };
-  setRemarque(remarqueWithNewSub);
-
-  if (!remarques) {
-    throw new Error("Remarques not found");
+  let newRemarque: Remarque;
+  if (nodeExists(subPage, node)) {
+    newRemarque = modifySubPageNode(remarque, subPage, node);
+  } else {
+    newRemarque = addNodeToSubPage(remarque, subPage, node);
   }
 
-  const remarquesWithoutSelectedRemarque = remarques.filter(
-    (remarque) => remarque.id !== urlParams.id
-  );
+  setRemarque(newRemarque);
+  updateLocalStorageState(newRemarque);
+}
 
-  const newRemarques = [
-    ...remarquesWithoutSelectedRemarque,
-    remarqueWithNewSub,
-  ];
+function addNodeToSubPage(
+  remarque: Remarque,
+  subPage: SubPage,
+  newNode: SubPageNode
+): Remarque {
+  return {
+    ...remarque,
+    subPage: remarque.subPage?.map((sub) => {
+      if (sub.id === subPage.id) {
+        return { ...sub, nodes: [...sub.nodes, newNode] };
+      }
+      return sub;
+    }),
+  };
+}
 
-  saveToLocalStorage("remarques", newRemarques);
+function modifySubPageNode(
+  remarque: Remarque,
+  subPage: SubPage,
+  node: SubPageNode
+): Remarque {
+  const newSubPage: SubPage = {
+    ...subPage,
+    nodes: subPage.nodes.map((n) => {
+      if (n.id === node.id) {
+        return node;
+      }
+      return n;
+    }),
+  };
+
+  const newRemarque = {
+    ...remarque,
+    subPage: remarque.subPage?.map((sub) => {
+      if (sub.id === newSubPage.id) {
+        return newSubPage;
+      }
+      return sub;
+    }),
+  };
+
+  return newRemarque;
 }
 
 export function updateRemarqueHeader(
@@ -60,23 +89,7 @@ export function updateRemarqueHeader(
   };
 
   setRemarque(newRemarque);
-
   updateLocalStorageState(newRemarque);
-}
-
-function updateLocalStorageState(newRemarque: Remarque) {
-  const remarques = getFromLocalStorage<Remarque>("remarques");
-
-  if (!remarques) {
-    return;
-  }
-
-  const id = newRemarque.id;
-  const newRemarques = remarques?.filter((remarque) => remarque.id !== id);
-
-  newRemarques.push(newRemarque);
-
-  saveToLocalStorage("remarques", newRemarques);
 }
 
 export function findSubPage(
@@ -90,4 +103,8 @@ export function findSubPage(
   }
 
   return subPage;
+}
+
+function nodeExists(subPage: SubPage, node: SubPageNode): boolean {
+  return !!subPage.nodes.findIndex((n) => n.id === node.id);
 }

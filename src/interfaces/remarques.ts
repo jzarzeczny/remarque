@@ -16,6 +16,7 @@ export interface SubPage {
 }
 
 export interface SubPageNode {
+  id: string;
   type: NodeType;
   content: string;
 }

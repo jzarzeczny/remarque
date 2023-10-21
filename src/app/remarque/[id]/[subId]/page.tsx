@@ -1,12 +1,12 @@
 "use client";
 
-import { Remarque, SubPage, SubPageNode } from "@/interfaces/remarques";
+import { SubPageNode } from "@/interfaces/remarques";
 import styles from "./page.module.scss";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { RemarqueContext } from "../layout";
-import { getFromLocalStorage, saveToLocalStorage } from "@/utils/localStorage";
 import { findSubPage, updateSubPage } from "@/utils/remarque";
 import { RemarqueUrlParams } from "@/interfaces/routes";
+import { generateRandomId } from "@/utils/utils";
 
 export default function RemarqueSubPageId({
   params,
@@ -14,29 +14,28 @@ export default function RemarqueSubPageId({
   params: RemarqueUrlParams;
 }) {
   const context = useContext(RemarqueContext);
-
   if (!context) {
-    return;
+    return <h2>Loading</h2>;
   }
-
-  const { remarque, setRemarque } = context;
+  const { remarque } = context;
 
   const addParagraph = () => {
     const newNode: SubPageNode = {
+      id: generateRandomId(),
       type: "content",
       content: "Nowy paragraf",
     };
-
     if (!remarque) {
       throw new Error("Remarque not found");
     }
-    updateSubPage(newNode, remarque, setRemarque, params);
+
+    updateSubPage(newNode, context, params);
   };
 
   return (
     <section className={styles.remarqueContent}>
       {findSubPage(remarque, params.subId).nodes.map((node) => {
-        return renderCorrectElement(node);
+        return renderCorrectElement(node, context, params);
       })}
       <div className={styles.addButtonContainer}>
         <button
@@ -50,19 +49,35 @@ export default function RemarqueSubPageId({
   );
 }
 
-function renderCorrectElement(node: SubPageNode) {
+function renderCorrectElement(
+  node: SubPageNode,
+  context: RemarqueContext,
+  urlParams: RemarqueUrlParams
+) {
+  function handleNodeUpdate(mod: string) {
+    const newNode: SubPageNode = { ...node, content: mod };
+    updateSubPage(newNode, context, urlParams);
+  }
   switch (node.type) {
     case "header":
       return (
-        <div className={styles.subPageContainer}>
-          <h1>{node.content}</h1>
+        <div
+          contentEditable
+          onBlur={(ev) => handleNodeUpdate(ev.target.innerText)}
+          className={styles.subPageHeader}
+        >
+          {node.content}
         </div>
       );
 
     case "content":
       return (
-        <div className={styles.subPageContainer}>
-          <p>{node.content}</p>
+        <div
+          contentEditable
+          onBlur={(ev) => handleNodeUpdate(ev.target.innerText)}
+          className={styles.subPagePara}
+        >
+          {node.content}
         </div>
       );
 

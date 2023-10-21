@@ -1,5 +1,13 @@
 export function generateRandomId() {
-  const timestamp = new Date().getTime().toString(36);
-  const randomNum = Math.random().toString(36).substr(2, 5);
-  return timestamp + randomNum;
+  const length = 8 as const;
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let id = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    id += characters.charAt(randomIndex);
+  }
+
+  return id;
 }

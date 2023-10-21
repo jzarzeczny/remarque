@@ -7,13 +7,14 @@ import { generateRandomId } from "@/utils/utils";
 import { getFromLocalStorage, saveToLocalStorage } from "@/utils/localStorage";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
-export const RemarqueContext = createContext<
-  | {
-      remarque: Remarque | undefined;
-      setRemarque: (value: Remarque) => void;
-    }
-  | undefined
->(undefined);
+export interface RemarqueContext {
+  remarque: Remarque | undefined;
+  setRemarque: (value: Remarque) => void;
+}
+
+export const RemarqueContext = createContext<RemarqueContext | undefined>(
+  undefined
+);
 
 export default function RemarqueLayout({
   params,
@@ -37,13 +38,14 @@ export default function RemarqueLayout({
     } else {
       return;
     }
-  }, [params.id]);
+  }, [params.id, setRemarque]);
 
   const addSubPage = () => {
     const newSubPage: SubPage = {
       id: generateRandomId(),
       nodes: [
         {
+          id: generateRandomId(),
           content: "Nowy rozdział",
           type: "header",
         },
