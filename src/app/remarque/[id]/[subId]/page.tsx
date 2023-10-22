@@ -32,6 +32,10 @@ export default function RemarqueSubPageId({
     updateSubPage(newNode, context, params);
   };
 
+  if (!remarque) {
+    return <section className={styles.remarqueContent}>Loading</section>;
+  }
+
   return (
     <section className={styles.remarqueContent}>
       {findSubPage(remarque, params.subId).nodes.map((node) => {

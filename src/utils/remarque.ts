@@ -8,7 +8,6 @@ export function updateSubPage(
   context: RemarqueContext,
   urlParams: RemarqueUrlParams
 ) {
-  debugger;
   const { remarque, setRemarque } = context;
   if (!remarque) {
     throw new Error("Remarque not found");
@@ -96,6 +95,9 @@ export function findSubPage(
   remarque: Remarque | undefined,
   subId: string
 ): SubPage {
+  if (!remarque) {
+    return {} as SubPage;
+  }
   const subPage = remarque?.subPage?.find((sub) => sub.id === subId);
 
   if (!subPage) {
@@ -106,5 +108,5 @@ export function findSubPage(
 }
 
 function nodeExists(subPage: SubPage, node: SubPageNode): boolean {
-  return !!subPage.nodes.findIndex((n) => n.id === node.id);
+  return !!subPage.nodes.find((n) => n.id === node.id);
 }
