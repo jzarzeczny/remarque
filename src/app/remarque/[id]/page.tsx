@@ -26,6 +26,7 @@ export default function RemarqueId({ params }: RemarqueIdProps) {
     <section className={styles.content}>
       <div
         contentEditable
+        suppressContentEditableWarning={true}
         onBlur={(ev) => {
           updateRemarqueHeader(ev.target.innerText, remarque, setRemarque);
         }}

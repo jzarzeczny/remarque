@@ -4,8 +4,13 @@ import Link from "next/link";
 import styles from "./layout.module.scss";
 import { Remarque, SubPage } from "@/interfaces/remarques";
 import { generateRandomId } from "@/utils/utils";
-import { getFromLocalStorage, saveToLocalStorage } from "@/utils/localStorage";
+import {
+  getFromLocalStorage,
+  saveToLocalStorage,
+  updateLocalStorageState,
+} from "@/utils/localStorage";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export interface RemarqueContext {
   remarque: Remarque | undefined;
@@ -26,6 +31,7 @@ export default function RemarqueLayout({
   children: ReactNode;
 }) {
   const [remarque, setRemarque] = useState<Remarque>();
+  const router = useRouter();
 
   useEffect(() => {
     const remarques = getFromLocalStorage<Remarque>("remarques");
@@ -41,6 +47,9 @@ export default function RemarqueLayout({
   }, [params.id, setRemarque]);
 
   const addSubPage = () => {
+    if (!remarque) {
+      return;
+    }
     const newSubPage: SubPage = {
       id: generateRandomId(),
       nodes: [
@@ -51,26 +60,31 @@ export default function RemarqueLayout({
         },
       ],
     };
-    const remarques = getFromLocalStorage<Remarque>("remarques");
-    if (!remarque) {
-      return;
-    }
+
     const newRemarque: Remarque = JSON.parse(JSON.stringify(remarque));
     if (!newRemarque.subPage) {
       newRemarque.subPage = [];
     }
     newRemarque.subPage?.push(newSubPage);
+    setRemarque(() => newRemarque);
 
-    const withoutOld = remarques?.filter(
-      (remarque) => remarque.id !== params.id
-    );
+    updateLocalStorageState(newRemarque);
+  };
 
-    withoutOld?.push(newRemarque);
+  const removeSubPage = (subId: string) => {
+    if (!remarque) {
+      return;
+    }
+    const newRemarque = {
+      ...remarque,
+      subPage: remarque?.subPage?.filter((sub) => sub.id !== subId) || [],
+    };
+
+    router.push("/remarque/" + remarque.id);
 
     setRemarque(() => newRemarque);
-    if (withoutOld) {
-      saveToLocalStorage("remarques", withoutOld);
-    }
+
+    updateLocalStorageState(remarque);
   };
 
   const findTitle = (subPage: SubPage) => {
@@ -91,10 +105,11 @@ export default function RemarqueLayout({
                 const title = findTitle(sub);
 
                 return (
-                  <div className={styles.subPageLink} key={sub.id}>
+                  <div key={sub.id} className={styles.subPageLink}>
                     <Link href={`/remarque/${params.id}/${sub.id}`}>
                       {title}
                     </Link>
+                    <button onClick={() => removeSubPage(sub.id)}>X</button>
                   </div>
                 );
               })}

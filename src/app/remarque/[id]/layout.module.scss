@@ -37,14 +37,24 @@
 }
 
 .subPageLink {
-  padding: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-top: 1rem;
   border: 1px solid $gray-300;
   text-align: center;
   border-radius: 8px;
 
   & a {
+    flex: 1 1 100%;
+    padding: 0.75rem;
     color: $black-500;
+  }
+
+  & button {
+    border-left: 1px solid $gray-300;
+    padding: 0.75rem;
   }
 }
 

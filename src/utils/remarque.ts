@@ -16,7 +16,10 @@ export function updateSubPage(
   const subPage = findSubPage(remarque, urlParams.subId);
 
   let newRemarque: Remarque;
-  if (nodeExists(subPage, node)) {
+
+  if (nodeExists(subPage, node) && node.content === "") {
+    newRemarque = deleteSubPageNode(remarque, subPage, node);
+  } else if (nodeExists(subPage, node)) {
     newRemarque = modifySubPageNode(remarque, subPage, node);
   } else {
     newRemarque = addNodeToSubPage(remarque, subPage, node);
@@ -70,6 +73,30 @@ function modifySubPageNode(
   return newRemarque;
 }
 
+function deleteSubPageNode(
+  remarque: Remarque,
+  subPage: SubPage,
+  node: SubPageNode
+): Remarque {
+  const newSubPage = {
+    ...subPage,
+    nodes: subPage.nodes.filter((n) => n.id !== node.id),
+  };
+
+  const newRemarque = {
+    ...remarque,
+    subPage: remarque.subPage?.map((sub) => {
+      if (sub.id === subPage.id) {
+        return newSubPage;
+      }
+
+      return sub;
+    }),
+  };
+
+  return newRemarque;
+}
+
 export function updateRemarqueHeader(
   value: string,
   remarque: Remarque | undefined,
@@ -98,10 +125,10 @@ export function findSubPage(
   if (!remarque) {
     return {} as SubPage;
   }
-  const subPage = remarque?.subPage?.find((sub) => sub.id === subId);
+  let subPage = remarque?.subPage?.find((sub) => sub.id === subId);
 
   if (!subPage) {
-    throw new Error("There is no subPage!");
+    subPage = {} as SubPage;
   }
 
   return subPage;

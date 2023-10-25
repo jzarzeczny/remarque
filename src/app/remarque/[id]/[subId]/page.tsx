@@ -66,7 +66,9 @@ function renderCorrectElement(
     case "header":
       return (
         <div
+          key={node.id}
           contentEditable
+          suppressContentEditableWarning={true}
           onBlur={(ev) => handleNodeUpdate(ev.target.innerText)}
           className={styles.subPageHeader}
         >
@@ -77,7 +79,9 @@ function renderCorrectElement(
     case "content":
       return (
         <div
+          key={node.id}
           contentEditable
+          suppressContentEditableWarning={true}
           onBlur={(ev) => handleNodeUpdate(ev.target.innerText)}
           className={styles.subPagePara}
         >

@@ -1,12 +1,13 @@
 @use "@/styles/colors.scss" as *;
 
 .content {
-  background-color: $white-500;
+  background-color: $white-300;
   flex: 1 1 100%;
-  padding: 2rem 3rem;
+  padding: 1rem;
 }
 
 .contentHeader {
   text-align: center;
   font-size: 2rem;
+  padding: 1rem 3rem;
 }
