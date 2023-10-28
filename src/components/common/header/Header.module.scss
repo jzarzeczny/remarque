@@ -1,0 +1,143 @@
+@use "@/styles/colors.scss" as *;
+
+$header-main-color: #ef233c;
+$header-secondary-color: #d90429;
+
+.headerContainer {
+  position: relative;
+  max-width: 1440px;
+  margin: auto;
+  background-color: $header-main-color;
+  padding: 2rem 4rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &::after {
+    content: "";
+    width: 800px;
+    height: 800px;
+    position: absolute;
+    right: 100px;
+    top: -410px;
+    background-color: $header-secondary-color;
+    border-radius: 50%;
+    z-index: 0;
+  }
+}
+
+.headerLogo {
+  flex: 1 1 30%;
+  color: $white-100;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.75rem;
+  user-select: none;
+}
+
+.headerLogoFirstLetter {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  text-transform: lowercase;
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 12px;
+  background-color: $white-100;
+  color: $black-500;
+  margin-right: 3px;
+}
+
+.navigation {
+  color: $white-100;
+  flex: 1 1 30%;
+  font-weight: 300;
+  z-index: 1;
+
+  & ul {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+.navigationElement {
+  color: $white-100;
+}
+
+.loginAnchor {
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: $white-100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  color: $header-main-color;
+  font-size: 1.25rem;
+  z-index: 1;
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.headerLanding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 1440px;
+  margin: auto;
+  background-color: $header-main-color;
+  height: 800px;
+  border-bottom-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  gap: 1rem;
+
+  h1 {
+    font-size: 5rem;
+    color: $white-100;
+    line-height: 1;
+    z-index: 1;
+    text-align: center;
+  }
+  p {
+    max-width: 65ch;
+    z-index: 1;
+    font-size: 1.25rem;
+    text-align: center;
+    color: $white-100;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+}
+
+.buttonsContainer {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+@mixin button {
+  border-radius: 12px;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.25rem;
+}
+
+.primaryButton {
+  @include button();
+  background-color: $white-100;
+  color: $black-500;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.secondaryButton {
+  @include button();
+  border: 1px solid $white-100;
+  background-color: transparent;
+  color: $white-100;
+}
