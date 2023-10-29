@@ -1,9 +1,10 @@
 @use "@/styles/colors.scss" as *;
+@use "@/styles/utils.scss" as *;
 
 .headerContainer {
+  @include max-width-mixin();
   position: relative;
-  max-width: 1440px;
-  margin: auto;
+
   background-color: $header-main-color;
   padding: 2rem 4rem;
   display: flex;

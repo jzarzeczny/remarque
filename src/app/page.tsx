@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from "./page.module.scss";
 import Image from "next/image";
+import { Footer } from "@/components/common/footer/Footer";
 
 export default function Home() {
   return (
@@ -75,9 +76,18 @@ export default function Home() {
             height={400}
             className={styles.image}
           />
-          <div className={styles.statsWrapper}></div>
+          <div className={styles.statsWrapper}>
+            <h3>
+              Remarques
+              <br />
+              created:
+            </h3>
+            <span>23</span>
+          </div>
         </div>
       </section>
+      <div className={styles.linearSeparator} />
+      <Footer />
     </>
   );
 }

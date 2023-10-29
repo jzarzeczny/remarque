@@ -23,3 +23,11 @@
   color: $black-500;
   margin-right: 3px;
 }
+
+.headerLogoReverse {
+  color: $black-500;
+  .headerLogoFirstLetter {
+    background-color: $header-main-color;
+    color: $white-100;
+  }
+}
