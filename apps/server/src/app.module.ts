@@ -1,10 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Remarque } from './remarque/remarque.entity';
+import { RemarqueModule } from './remarque/remarque.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mongodb',
+      host: 'localhost',
+      port: 27017,
+      database: 'remarque',
+      logging: 'all',
+      entities: [Remarque],
+    }),
+    RemarqueModule,
+  ],
 })
 export class AppModule {}
