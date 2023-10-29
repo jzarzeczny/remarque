@@ -1,16 +1,13 @@
 import Link from "next/link";
 import styles from "./Header.module.scss";
 import { CiLogin } from "react-icons/ci";
-import Image from "next/image";
+import { Logo } from "../logo/Logo";
 
 export const Header = () => {
   return (
     <>
       <header className={styles.headerContainer}>
-        <div className={styles.headerLogo}>
-          <span className={styles.headerLogoFirstLetter}>r</span>emarque
-        </div>
-
+        <Logo />
         <nav className={styles.navigation}>
           <ul>
             <Link className={styles.navigationElement} href={"/"}>
