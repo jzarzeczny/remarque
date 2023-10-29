@@ -1,8 +1,5 @@
 @use "@/styles/colors.scss" as *;
 
-$header-main-color: #ef233c;
-$header-secondary-color: #d90429;
-
 .headerContainer {
   position: relative;
   max-width: 1440px;
@@ -19,7 +16,7 @@ $header-secondary-color: #d90429;
     height: 800px;
     position: absolute;
     right: 100px;
-    top: -410px;
+    top: -380px;
     background-color: $header-secondary-color;
     border-radius: 50%;
     z-index: 0;
@@ -79,65 +76,4 @@ $header-secondary-color: #d90429;
   z-index: 1;
 
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-.headerLanding {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  max-width: 1440px;
-  margin: auto;
-  background-color: $header-main-color;
-  height: 800px;
-  border-bottom-left-radius: 100px;
-  border-bottom-right-radius: 100px;
-  gap: 1rem;
-
-  h1 {
-    font-size: 5rem;
-    color: $white-100;
-    line-height: 1;
-    z-index: 1;
-    text-align: center;
-  }
-  p {
-    max-width: 65ch;
-    z-index: 1;
-    font-size: 1.25rem;
-    text-align: center;
-    color: $white-100;
-    font-weight: 300;
-    line-height: 1.5;
-  }
-}
-
-.buttonsContainer {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-}
-
-@mixin button {
-  border-radius: 12px;
-  padding: 1.25rem 2.5rem;
-  font-size: 1.25rem;
-}
-
-.primaryButton {
-  @include button();
-  background-color: $white-100;
-  color: $black-500;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-.secondaryButton {
-  @include button();
-  border: 1px solid $white-100;
-  background-color: transparent;
-  color: $white-100;
 }
