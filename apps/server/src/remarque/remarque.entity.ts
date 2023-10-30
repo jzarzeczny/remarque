@@ -30,7 +30,7 @@ export class FrontPage {
 @Entity()
 export class Remarque {
   @ObjectIdColumn()
-  id: ObjectId;
+  id: string;
 
   @Column(() => FrontPage)
   frontPage: FrontPage;

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { NewRemarque } from 'src/remarque/remarque.dto';
 import { RemarqueService } from 'src/remarque/services/remarque.service';
-import { Remarque } from '../../../../shared/interfaces';
+import { Remarque } from '../remarque.entity';
 
 @Controller('remarque')
 export class RemarqueController {
@@ -17,6 +17,11 @@ export class RemarqueController {
   @Get()
   async getAll() {
     return this.remarqueService.getAllRemarques();
+  }
+
+  @Get(':id')
+  async getOne(@Param() param: any) {
+    return this.remarqueService.getOneRemarque(param.id);
   }
 
   @Post()
@@ -29,8 +34,8 @@ export class RemarqueController {
     return this.remarqueService.updateRemarque(remarque);
   }
 
-  @Delete(':id')
-  async delete(@Param() id: string) {
+  @Delete()
+  async delete(@Body() id: string) {
     return this.remarqueService.deleteRemarque(id);
   }
 }

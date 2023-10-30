@@ -1,12 +1,23 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./Header.module.scss";
 import { CiLogin } from "react-icons/ci";
 import { Logo } from "../logo/Logo";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 export const Header = () => {
+  const pathname = usePathname();
+
   return (
     <>
-      <header className={styles.headerContainer}>
+      <header
+        className={clsx(
+          styles.headerContainer,
+          pathname !== "/" && styles.headerContainerOverflowFix
+        )}
+      >
         <Logo />
         <nav className={styles.navigation}>
           <ul>

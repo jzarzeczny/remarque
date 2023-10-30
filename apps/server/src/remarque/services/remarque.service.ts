@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { NewRemarque } from 'src/remarque/remarque.dto';
 import { Repository } from 'typeorm';
 import { Remarque } from 'src/remarque/remarque.entity';
-import { Remarque as RemarqueInterface } from '../../../../shared/interfaces';
 
 @Injectable()
 export class RemarqueService {
@@ -16,10 +15,21 @@ export class RemarqueService {
     return this.remarqueRepository.find();
   }
 
+  async getOneRemarque(id: string) {
+    console.log(id);
+    const data = await this.remarqueRepository.findOneBy({
+      id,
+    });
+
+    console.log(data);
+
+    return data;
+  }
+
   createRemarque(newRemarque: NewRemarque) {
     return this.remarqueRepository.save(newRemarque);
   }
-  updateRemarque(remarque: RemarqueInterface) {
+  updateRemarque(remarque: Remarque) {
     return this.remarqueRepository.update(remarque.id, remarque);
   }
 

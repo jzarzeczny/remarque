@@ -2,58 +2,53 @@
 import { RemarqueAddCard } from "@/components/RemarqueAddCard";
 import styles from "./page.module.scss";
 import { useEffect, useState } from "react";
-import { Remarque } from "@/interfaces/remarques";
-import { getFromLocalStorage, saveToLocalStorage } from "@/utils/localStorage";
+import { NewRemarque, Remarque } from "@/interfaces/remarques";
+
 import { RemarqueCard } from "@/components/RemarqueCard";
-import { generateRandomId } from "@/utils/utils";
+import { addRemarque, deleteRemarque } from "@/utils/api";
 
 export default function Dashboard() {
   const [remarquesData, setRemarquesData] = useState<Remarque[]>([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const addRemarque = () => {
-    const id = generateRandomId();
-    const newRemarque: Remarque = {
-      id,
+  const addNewRemarque = async () => {
+    const newRemarque: NewRemarque = {
       frontPage: {
         title: "New Remarque",
       },
     };
-    const newRemarqueData: Remarque[] = [...remarquesData];
-    newRemarqueData.push(newRemarque);
 
-    saveToLocalStorage("remarques", newRemarqueData);
-
-    setRemarquesData(newRemarqueData);
+    await addRemarque(newRemarque);
   };
 
-  const removeRemarque = (id: string) => {
-    const newRemarqueData = remarquesData.filter(
-      (remarque) => remarque.id !== id
-    );
-
-    saveToLocalStorage("remarques", newRemarqueData);
-
-    setRemarquesData(newRemarqueData);
+  const removeRemarque = async (id: string) => {
+    await deleteRemarque(id);
   };
 
   useEffect(() => {
-    const localRemarques = getFromLocalStorage<Remarque>("remarques");
-    if (localRemarques) {
-      setRemarquesData(localRemarques);
+    async function getRemarques() {
+      const res = await fetch("http://localhost:4000/remarque", {
+        method: "GET",
+      });
+
+      const remarques = await res.json();
+
+      setRemarquesData(remarques);
     }
+
+    getRemarques();
   }, []);
 
   return (
     <main className={styles.main}>
-      <RemarqueAddCard addRemarque={addRemarque} />
-      {remarquesData.map((remarque) => (
-        <RemarqueCard
-          key={remarque.id}
-          remarque={remarque}
-          removeRemarque={removeRemarque}
-        />
-      ))}
+      <RemarqueAddCard addRemarque={addNewRemarque} />
+      {remarquesData.length > 0 &&
+        remarquesData.map((remarque) => (
+          <RemarqueCard
+            key={remarque.id}
+            remarque={remarque}
+            removeRemarque={removeRemarque}
+          />
+        ))}
     </main>
   );
 }

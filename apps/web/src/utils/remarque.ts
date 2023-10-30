@@ -1,9 +1,9 @@
 import { Remarque, SubPage, SubPageNode } from "@/interfaces/remarques";
-import { updateLocalStorageState } from "./localStorage";
 import { RemarqueUrlParams } from "@/interfaces/routes";
 import { RemarqueContext } from "@/app/remarque/[id]/layout";
+import { modifyRemarque } from "./api";
 
-export function updateSubPage(
+export async function updateSubPage(
   node: SubPageNode,
   context: RemarqueContext,
   urlParams: RemarqueUrlParams
@@ -26,7 +26,6 @@ export function updateSubPage(
   }
 
   setRemarque(newRemarque);
-  updateLocalStorageState(newRemarque);
 }
 
 function addNodeToSubPage(
@@ -97,7 +96,7 @@ function deleteSubPageNode(
   return newRemarque;
 }
 
-export function updateRemarqueHeader(
+export async function updateRemarqueHeader(
   value: string,
   remarque: Remarque | undefined,
   setRemarque: (value: Remarque) => void
@@ -115,7 +114,7 @@ export function updateRemarqueHeader(
   };
 
   setRemarque(newRemarque);
-  updateLocalStorageState(newRemarque);
+  await modifyRemarque(newRemarque);
 }
 
 export function findSubPage(

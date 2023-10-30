@@ -2,8 +2,6 @@
 
 import styles from "./page.module.scss";
 import { useContext } from "react";
-import { getFromLocalStorage, saveToLocalStorage } from "@/utils/localStorage";
-import { Remarque } from "@/interfaces/remarques";
 import { RemarqueContext } from "./layout";
 import { updateRemarqueHeader } from "@/utils/remarque";
 

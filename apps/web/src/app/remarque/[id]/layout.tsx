@@ -4,13 +4,9 @@ import Link from "next/link";
 import styles from "./layout.module.scss";
 import { Remarque, SubPage } from "@/interfaces/remarques";
 import { generateRandomId } from "@/utils/utils";
-import {
-  getFromLocalStorage,
-  saveToLocalStorage,
-  updateLocalStorageState,
-} from "@/utils/localStorage";
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getOneRemarque, modifyRemarque } from "@/utils/api";
 
 export interface RemarqueContext {
   remarque: Remarque | undefined;
@@ -34,19 +30,18 @@ export default function RemarqueLayout({
   const router = useRouter();
 
   useEffect(() => {
-    const remarques = getFromLocalStorage<Remarque>("remarques");
-    const singleRemarque = remarques?.filter(
-      (remarque) => remarque.id === params.id
-    );
-
-    if (singleRemarque?.length === 1) {
-      setRemarque(singleRemarque[0]);
-    } else {
-      return;
+    async function getRemarque() {
+      const res = await getOneRemarque(params.id);
+      console.log(res);
+      const remarque = await res.json();
+      console.log(remarque);
+      setRemarque(remarque);
     }
+
+    getRemarque();
   }, [params.id, setRemarque]);
 
-  const addSubPage = () => {
+  const addSubPage = async () => {
     if (!remarque) {
       return;
     }
@@ -68,10 +63,10 @@ export default function RemarqueLayout({
     newRemarque.subPage?.push(newSubPage);
     setRemarque(() => newRemarque);
 
-    updateLocalStorageState(newRemarque);
+    await modifyRemarque(newRemarque);
   };
 
-  const removeSubPage = (subId: string) => {
+  const removeSubPage = async (subId: string) => {
     if (!remarque) {
       return;
     }
@@ -84,7 +79,7 @@ export default function RemarqueLayout({
 
     setRemarque(() => newRemarque);
 
-    updateLocalStorageState(remarque);
+    await modifyRemarque(newRemarque);
   };
 
   const findTitle = (subPage: SubPage) => {
@@ -103,6 +98,7 @@ export default function RemarqueLayout({
             {remarque?.subPage &&
               remarque?.subPage.map((sub) => {
                 const title = findTitle(sub);
+                console.log(title);
 
                 return (
                   <div key={sub.id} className={styles.subPageLink}>
