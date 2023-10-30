@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { NewRemarque } from 'src/remarque/remarque.dto';
 import { RemarqueService } from 'src/remarque/services/remarque.service';
 import { Remarque } from '../../../../shared/interfaces';
@@ -21,8 +29,8 @@ export class RemarqueController {
     return this.remarqueService.updateRemarque(remarque);
   }
 
-  @Delete()
-  async delete() {
-    return 'Delete remarque';
+  @Delete(':id')
+  async delete(@Param() id: string) {
+    return this.remarqueService.deleteRemarque(id);
   }
 }

@@ -3,3 +3,7 @@ export class NewRemarque {
     title: string;
   };
 }
+
+export class RemoveRemarque {
+  id: string;
+}

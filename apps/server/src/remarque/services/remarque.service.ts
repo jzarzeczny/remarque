@@ -22,4 +22,8 @@ export class RemarqueService {
   updateRemarque(remarque: RemarqueInterface) {
     return this.remarqueRepository.update(remarque.id, remarque);
   }
+
+  deleteRemarque(id: string) {
+    return this.remarqueRepository.delete(id);
+  }
 }
