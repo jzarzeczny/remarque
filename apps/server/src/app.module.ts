@@ -1,19 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Remarque } from './remarque/remarque.entity';
+
 import { RemarqueModule } from './remarque/remarque.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      host: 'localhost',
-      port: 27017,
-      database: 'remarque',
-      logging: 'all',
-      entities: [Remarque],
-    }),
-    RemarqueModule,
-  ],
+  imports: [MongooseModule.forRoot('mongodb://localhost'), RemarqueModule],
 })
 export class AppModule {}

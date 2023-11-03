@@ -9,19 +9,20 @@ import {
 } from '@nestjs/common';
 import { NewRemarque } from 'src/remarque/remarque.dto';
 import { RemarqueService } from 'src/remarque/services/remarque.service';
-import { Remarque } from '../remarque.entity';
+import { RemarqueDocument } from '../remarque.schema';
 
 @Controller('remarque')
 export class RemarqueController {
   constructor(private remarqueService: RemarqueService) {}
   @Get()
   async getAll() {
-    return this.remarqueService.getAllRemarques();
+    const data = await this.remarqueService.getAllRemarques();
+    return data;
   }
 
   @Get(':id')
-  async getOne(@Param() param: any) {
-    return this.remarqueService.getOneRemarque(param.id);
+  async getOne(@Param() param: { id: string }) {
+    return await this.remarqueService.getOneRemarque(param.id);
   }
 
   @Post()
@@ -30,12 +31,12 @@ export class RemarqueController {
   }
 
   @Put()
-  async update(@Body() remarque: Remarque) {
+  async update(@Body() remarque: RemarqueDocument) {
     return this.remarqueService.updateRemarque(remarque);
   }
 
   @Delete()
-  async delete(@Body() id: string) {
-    return this.remarqueService.deleteRemarque(id);
+  async delete(@Body() remarque: RemarqueDocument) {
+    return this.remarqueService.deleteRemarque(remarque);
   }
 }

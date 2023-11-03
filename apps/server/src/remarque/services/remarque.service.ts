@@ -1,39 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { NewRemarque } from 'src/remarque/remarque.dto';
-import { Repository } from 'typeorm';
-import { Remarque } from 'src/remarque/remarque.entity';
+import { Remarque, RemarqueDocument } from '../remarque.schema';
 
 @Injectable()
 export class RemarqueService {
   constructor(
-    @InjectRepository(Remarque)
-    private remarqueRepository: Repository<Remarque>,
+    @InjectModel('remarque') private remarqueModel: Model<Remarque>,
   ) {}
 
   getAllRemarques() {
-    return this.remarqueRepository.find();
+    return this.remarqueModel.find();
   }
 
   async getOneRemarque(id: string) {
-    console.log(id);
-    const data = await this.remarqueRepository.findOneBy({
-      id,
-    });
-
-    console.log(data);
-
-    return data;
+    return this.remarqueModel.findById(id);
   }
 
   createRemarque(newRemarque: NewRemarque) {
-    return this.remarqueRepository.save(newRemarque);
+    return this.remarqueModel.create(newRemarque);
   }
-  updateRemarque(remarque: Remarque) {
-    return this.remarqueRepository.update(remarque.id, remarque);
+  updateRemarque(remarque: RemarqueDocument): any {
+    return this.remarqueModel.findOneAndReplace({ id: remarque.id }, remarque);
   }
 
-  deleteRemarque(id: string) {
-    return this.remarqueRepository.delete(id);
+  deleteRemarque(remarque: RemarqueDocument): any {
+    return this.remarqueModel.findByIdAndDelete(remarque);
   }
 }
