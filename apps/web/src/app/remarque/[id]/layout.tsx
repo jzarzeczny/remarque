@@ -32,9 +32,7 @@ export default function RemarqueLayout({
   useEffect(() => {
     async function getRemarque() {
       const res = await getOneRemarque(params.id);
-      console.log(res);
       const remarque = await res.json();
-      console.log(remarque);
       setRemarque(remarque);
     }
 
@@ -98,8 +96,6 @@ export default function RemarqueLayout({
             {remarque?.subPage &&
               remarque?.subPage.map((sub) => {
                 const title = findTitle(sub);
-                console.log(title);
-
                 return (
                   <div key={sub.id} className={styles.subPageLink}>
                     <Link href={`/remarque/${params.id}/${sub.id}`}>

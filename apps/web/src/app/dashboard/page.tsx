@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { NewRemarque, Remarque } from "@/interfaces/remarques";
 
 import { RemarqueCard } from "@/components/RemarqueCard";
-import { addRemarque, deleteRemarque } from "@/utils/api";
+import { addRemarque, deleteRemarque, getAllRemarques } from "@/utils/api";
 
 export default function Dashboard() {
   const [remarquesData, setRemarquesData] = useState<Remarque[]>([]);
@@ -20,18 +20,13 @@ export default function Dashboard() {
     await addRemarque(newRemarque);
   };
 
-  const removeRemarque = async (id: string) => {
-    await deleteRemarque(id);
+  const removeRemarque = async (remarque: Remarque) => {
+    await deleteRemarque(remarque);
   };
 
   useEffect(() => {
     async function getRemarques() {
-      const res = await fetch("http://localhost:4000/remarque", {
-        method: "GET",
-      });
-
-      const remarques = await res.json();
-
+      const remarques = await getAllRemarques();
       setRemarquesData(remarques);
     }
 

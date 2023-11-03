@@ -4,7 +4,7 @@ import styles from "./RemarqueCard.module.scss";
 
 interface RemarqueCardProps {
   remarque: Remarque;
-  removeRemarque: (id: string) => void;
+  removeRemarque: (remarque: Remarque) => void;
 }
 
 export const RemarqueCard = ({
@@ -18,7 +18,7 @@ export const RemarqueCard = ({
       </Link>
       <button
         className={styles.removeButton}
-        onClick={() => removeRemarque(remarque.id)}
+        onClick={() => removeRemarque(remarque)}
       >
         Usuń
       </button>
