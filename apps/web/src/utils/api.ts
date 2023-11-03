@@ -1,5 +1,15 @@
 import { NewRemarque, Remarque } from "@/interfaces/remarques";
 
+export async function getAllRemarques() {
+  const res = await fetch("http://localhost:4000/remarque", {
+    method: "GET",
+  });
+
+  const remarques = await res.json();
+
+  return remarques;
+}
+
 export async function getOneRemarque(id: string) {
   return await fetch(`http://localhost:4000/remarque/${id}`);
 }
@@ -13,10 +23,10 @@ export async function addRemarque(data: NewRemarque) {
   });
 }
 
-export async function deleteRemarque(id: string) {
+export async function deleteRemarque(remarque: Remarque) {
   return await fetch(`http://localhost:4000/remarque`, {
     method: "DELETE",
-    body: JSON.stringify({ id }),
+    body: JSON.stringify(remarque),
     headers: {
       "Content-Type": "application/json",
     },

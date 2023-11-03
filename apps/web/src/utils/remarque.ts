@@ -25,6 +25,8 @@ export async function updateSubPage(
     newRemarque = addNodeToSubPage(remarque, subPage, node);
   }
 
+  await modifyRemarque(newRemarque);
+
   setRemarque(newRemarque);
 }
 
