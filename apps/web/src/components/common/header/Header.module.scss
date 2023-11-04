@@ -5,7 +5,7 @@
   @include max-width-mixin();
   position: relative;
 
-  background-color: $header-main-color;
+  background-color: $main-color;
   padding: 2rem 4rem;
   display: flex;
   flex-direction: row;
@@ -18,7 +18,7 @@
     position: absolute;
     right: 100px;
     top: -380px;
-    background-color: $header-secondary-color;
+    background-color: $secondary-color;
     border-radius: 50%;
     z-index: 0;
   }
@@ -48,7 +48,7 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  color: $header-main-color;
+  color: $main-color;
   font-size: 1.25rem;
   z-index: 1;
 

@@ -5,6 +5,8 @@ import Link from "next/link";
 import styles from "./RemarqueCard.module.scss";
 import { useFormState } from "react-dom";
 import { deleteRemarqueForm } from "@/app/dashboard/actions";
+import { Button } from "./common/button/Buttons";
+import clsx from "clsx";
 
 const initialState = {
   message: null,
@@ -18,16 +20,29 @@ export const RemarqueCard = ({ remarque }: RemarqueCardProps) => {
   const [_, formAction] = useFormState(deleteRemarqueForm, initialState);
 
   return (
-    <div className={styles.container}>
-      <Link href={`/remarque/${remarque.id}`} className="cardContainer">
+    <div className={clsx(styles.container, "cardContainer")}>
+      <div className={styles.cardBody}>
         <h3 className={styles.remarqueTitle}>{remarque.frontPage.title}</h3>
-      </Link>
-      <form action={formAction}>
-        <input type="hidden" name="id" value={remarque.id} />
-        <button type="submit" className={styles.removeButton}>
-          Delete
-        </button>
-      </form>
+      </div>
+      <div className={styles.cardFooter}>
+        <Button
+          type="anchor"
+          text="Edit"
+          size="small"
+          style="primary"
+          href={`/remarque/${remarque.id}`}
+        />
+        <form action={formAction}>
+          <input type="hidden" name="id" value={remarque.id} />
+          <Button
+            type="button"
+            isForm={true}
+            text="Delete"
+            size="small"
+            style="secondary"
+          />
+        </form>
+      </div>
     </div>
   );
 };
