@@ -12,11 +12,11 @@
 
 .removeButton {
   position: absolute;
-  bottom: -1rem;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0rem;
+  right: -1.5rem;
   background-color: $white-100;
   border: 1px solid $black-300;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
 }

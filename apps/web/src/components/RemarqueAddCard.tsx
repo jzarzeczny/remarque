@@ -1,11 +1,18 @@
-interface RemarqueAddCardProps {
-  addRemarque: () => void;
-}
+"use client";
 
-export const RemarqueAddCard = ({ addRemarque }: RemarqueAddCardProps) => {
+import { addRemarqueForm } from "@/app/dashboard/actions";
+import { useFormState } from "react-dom";
+
+const initialState = {};
+
+export const RemarqueAddCard = () => {
+  const [_, formAction] = useFormState(addRemarqueForm, initialState);
+
   return (
-    <button className="cardContainer" onClick={() => addRemarque()}>
-      <span>+</span>
-    </button>
+    <form action={formAction}>
+      <button type="submit" className="cardContainer">
+        <span>+</span>
+      </button>
+    </form>
   );
 };

@@ -26,7 +26,7 @@ export class RemarqueController {
   }
 
   @Post()
-  async create(@Body() newRemarque: NewRemarque) {
+  create(@Body() newRemarque: NewRemarque) {
     return this.remarqueService.createRemarque(newRemarque);
   }
 
@@ -36,7 +36,7 @@ export class RemarqueController {
   }
 
   @Delete()
-  async delete(@Body() remarque: RemarqueDocument) {
-    return this.remarqueService.deleteRemarque(remarque);
+  async delete(@Body() id: string) {
+    return this.remarqueService.deleteRemarque(id);
   }
 }

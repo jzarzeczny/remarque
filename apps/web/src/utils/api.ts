@@ -1,6 +1,6 @@
 import { NewRemarque, Remarque } from "@/interfaces/remarques";
 
-export async function getAllRemarques() {
+export async function getAllRemarques(): Promise<Remarque[]> {
   const res = await fetch("http://localhost:4000/remarque", {
     method: "GET",
   });
@@ -13,32 +13,39 @@ export async function getAllRemarques() {
 export async function getOneRemarque(id: string) {
   return await fetch(`http://localhost:4000/remarque/${id}`);
 }
+
 export async function addRemarque(data: NewRemarque) {
-  return fetch("http://localhost:4000/remarque", {
+  const response = await fetch("http://localhost:4000/remarque", {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
     },
   });
-}
 
-export async function deleteRemarque(remarque: Remarque) {
-  return await fetch(`http://localhost:4000/remarque`, {
-    method: "DELETE",
-    body: JSON.stringify(remarque),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return response.json();
 }
 
 export async function modifyRemarque(data: Remarque) {
-  return fetch(`http://localhost:4000/remarque`, {
+  const response = await fetch(`http://localhost:4000/remarque`, {
     method: "PUT",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
     },
   });
+
+  return response.json();
+}
+
+export async function deleteRemarque(id: string) {
+  const response = await fetch(`http://localhost:4000/remarque`, {
+    method: "DELETE",
+    body: JSON.stringify({ id }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.json();
 }
