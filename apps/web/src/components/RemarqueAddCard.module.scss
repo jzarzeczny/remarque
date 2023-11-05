@@ -1,0 +1,13 @@
+@use "@/styles/colors" as *;
+
+.container {
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0px 4px 16px 0px $black-100;
+
+    span {
+      color: $black-500;
+    }
+  }
+}

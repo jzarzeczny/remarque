@@ -1,0 +1,29 @@
+@use "@/styles/colors.scss" as *;
+
+.large {
+  border-radius: 12px;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.25rem;
+}
+
+.small {
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+}
+
+.primary {
+  background-color: $white-100;
+  color: $black-500;
+  z-index: 1;
+  background-color: $main-500;
+  color: $white-100;
+}
+
+.secondary {
+  border: 1px solid $white-100;
+  background-color: transparent;
+  color: $white-100;
+  border-color: $main-700;
+  color: $black-500;
+}

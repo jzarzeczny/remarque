@@ -23,13 +23,23 @@ export class SubPage {
 
 @Schema()
 export class FrontPage {
-  @Prop()
+  @Prop({ required: true })
   title: string;
 }
 
-@Schema({ toJSON: { virtuals: true, getters: true }, id: false })
+@Schema({
+  toJSON: {
+    virtuals: true,
+    getters: true,
+    transform: (_, ret) => {
+      ret.id = ret._id;
+      delete ret._id;
+    },
+  },
+  id: false,
+})
 export class Remarque {
-  @Prop()
+  @Prop({ required: true })
   frontPage: FrontPage;
 
   @Prop()

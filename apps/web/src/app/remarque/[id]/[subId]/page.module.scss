@@ -3,6 +3,11 @@
 @mixin subPageContainer {
   width: 100%;
   padding: 1rem 3rem;
+
+  &:focus-visible {
+    outline: 1px solid $main-500;
+    outline-offset: -2px;
+  }
 }
 
 .remarqueContent {
@@ -18,6 +23,10 @@
   font-size: 2rem;
   font-weight: 400;
   text-align: center;
+
+  &:focus-visible {
+    outline: 2px solid $main-500;
+  }
 }
 
 .subPagePara {
