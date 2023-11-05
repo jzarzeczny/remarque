@@ -5,8 +5,9 @@ import styles from "./layout.module.scss";
 import { Remarque, SubPage } from "@/interfaces/remarques";
 import { generateRandomId } from "@/utils/utils";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getOneRemarque, modifyRemarque } from "@/utils/api";
+import clsx from "clsx";
 
 export interface RemarqueContext {
   remarque: Remarque | undefined;
@@ -28,11 +29,11 @@ export default function RemarqueLayout({
 }) {
   const [remarque, setRemarque] = useState<Remarque>();
   const router = useRouter();
+  const path = usePathname();
 
   useEffect(() => {
     async function getRemarque() {
-      const res = await getOneRemarque(params.id);
-      const remarque = await res.json();
+      const remarque = await getOneRemarque(params.id);
       setRemarque(remarque);
     }
 
@@ -48,7 +49,7 @@ export default function RemarqueLayout({
       nodes: [
         {
           id: generateRandomId(),
-          content: "Nowy rozdział",
+          content: "New chapter",
           type: "header",
         },
       ],
@@ -59,9 +60,10 @@ export default function RemarqueLayout({
       newRemarque.subPage = [];
     }
     newRemarque.subPage?.push(newSubPage);
-    setRemarque(() => newRemarque);
 
     await modifyRemarque(newRemarque);
+
+    setRemarque(() => newRemarque);
   };
 
   const removeSubPage = async (subId: string) => {
@@ -83,13 +85,12 @@ export default function RemarqueLayout({
   const findTitle = (subPage: SubPage) => {
     return subPage.nodes.find((node) => node.type === "header")?.content;
   };
-
   return (
     <RemarqueContext.Provider value={{ remarque, setRemarque }}>
       <main className={styles.main}>
         <aside className={styles.aside}>
           <Link className={styles.asideMain} href={`/remarque/${params.id}`}>
-            Spis treści
+            Cover page
           </Link>
           <span className={styles.separator} />
           <div className={styles.asideSectionsContainer}>
@@ -97,7 +98,15 @@ export default function RemarqueLayout({
               remarque?.subPage.map((sub) => {
                 const title = findTitle(sub);
                 return (
-                  <div key={sub.id} className={styles.subPageLink}>
+                  <div
+                    key={sub.id}
+                    className={clsx(styles.subPageLink, {
+                      [`${styles.subPageLinkActive}`]: shouldBeActive(
+                        path,
+                        sub
+                      ),
+                    })}
+                  >
                     <Link href={`/remarque/${params.id}/${sub.id}`}>
                       {title}
                     </Link>
@@ -114,4 +123,8 @@ export default function RemarqueLayout({
       </main>
     </RemarqueContext.Provider>
   );
+}
+
+function shouldBeActive(path: string, sub: SubPage): boolean {
+  return !!path.includes(sub.id);
 }

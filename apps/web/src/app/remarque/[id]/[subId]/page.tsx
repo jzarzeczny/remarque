@@ -23,7 +23,7 @@ export default function RemarqueSubPageId({
     const newNode: SubPageNode = {
       id: generateRandomId(),
       type: "content",
-      content: "Nowy paragraf",
+      content: "New para",
     };
     if (!remarque) {
       throw new Error("Remarque not found");

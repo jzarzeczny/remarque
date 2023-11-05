@@ -22,7 +22,15 @@ export class RemarqueService {
     return this.remarqueModel.create(newRemarque);
   }
   updateRemarque(remarque: RemarqueDocument): any {
-    return this.remarqueModel.findOneAndReplace({ id: remarque.id }, remarque);
+    try {
+      return this.remarqueModel.findOneAndReplace(
+        { _id: remarque.id },
+        remarque,
+      );
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
   }
 
   deleteRemarque(id: string): any {

@@ -11,7 +11,9 @@ export async function getAllRemarques(): Promise<Remarque[]> {
 }
 
 export async function getOneRemarque(id: string) {
-  return await fetch(`http://localhost:4000/remarque/${id}`);
+  const response = await fetch(`http://localhost:4000/remarque/${id}`);
+
+  return response.json();
 }
 
 export async function addRemarque(data: NewRemarque) {
@@ -35,7 +37,9 @@ export async function modifyRemarque(data: Remarque) {
     },
   });
 
-  return response.json();
+  if (response.ok) {
+    return response.json();
+  }
 }
 
 export async function deleteRemarque(id: string) {

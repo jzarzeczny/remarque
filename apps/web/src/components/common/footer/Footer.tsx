@@ -6,8 +6,10 @@ export const Footer = () => {
     <footer className={styles.footer}>
       <Logo revertColors={true} />
       <p>@2023 Coded by Jakub Zarzeczny</p>
-      <a href="">Linkedin</a>
-      <a href="">Github</a>
+      <a href="https://www.linkedin.com/in/jakub-zarzeczny-135732218/">
+        Linkedin
+      </a>
+      <a href="https://github.com/jzarzeczny">Github</a>
     </footer>
   );
 };

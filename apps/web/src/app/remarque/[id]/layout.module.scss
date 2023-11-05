@@ -7,11 +7,13 @@
   flex-direction: row;
   flex-wrap: nowrap;
   height: calc(100vh - 120px);
+  border-left: 1px solid $main-500;
+  border-right: 1px solid $main-500;
 }
 
 .aside {
-  background-color: $white-300;
-  border-right: 1px solid $black-100;
+  background-color: $white-100;
+  border-right: 1px solid $main-500;
   flex: 1 1 300px;
   padding: 1rem 2rem;
 
@@ -20,18 +22,23 @@
 }
 
 .asideMain {
+  position: relative;
   width: 100%;
   padding: 0.75rem;
   text-align: center;
-  background-color: $white-500;
+  background-color: transparent;
   border-radius: 8px;
   color: $black-500;
   margin: 1rem 0;
-  border: 1px solid $gray-500;
+  border: 1px solid $main-500;
+
+  &:hover {
+    border: 1px solid $main-700;
+  }
 }
 
 .separator {
-  background-color: $black-100;
+  background-color: $main-700;
   height: 2px;
   width: calc(100% - 2rem);
   margin: 0 1rem;
@@ -46,6 +53,7 @@
   border: 1px solid $gray-300;
   text-align: center;
   border-radius: 8px;
+  position: relative;
 
   & a {
     flex: 1 1 100%;
@@ -57,6 +65,20 @@
     border-left: 1px solid $gray-300;
     padding: 0.75rem;
   }
+
+  &:hover {
+    border: 1px solid $main-700;
+    & button {
+      border-left: 1px solid $main-700;
+    }
+  }
+}
+
+.subPageLinkActive {
+  border: 1px solid $main-900;
+  & button {
+    border-left: 1px solid $main-900;
+  }
 }
 
 .asideAdd {
@@ -64,11 +86,11 @@
   width: 100%;
   padding: 0.5rem;
   text-align: center;
-  background-color: $white-500;
+  background-color: $white-100;
   border-radius: 8px;
   color: $black-500;
   font-size: 1.5rem;
-  border: 1px solid $gray-300;
+  border: 1px solid $main-700;
 }
 
 .asideSectionsContainer {

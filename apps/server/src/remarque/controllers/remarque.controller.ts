@@ -15,14 +15,13 @@ import { RemarqueDocument } from '../remarque.schema';
 export class RemarqueController {
   constructor(private remarqueService: RemarqueService) {}
   @Get()
-  async getAll() {
-    const data = await this.remarqueService.getAllRemarques();
-    return data;
+  getAll() {
+    return this.remarqueService.getAllRemarques();
   }
 
   @Get(':id')
-  async getOne(@Param() param: { id: string }) {
-    return await this.remarqueService.getOneRemarque(param.id);
+  getOne(@Param() param: { id: string }) {
+    return this.remarqueService.getOneRemarque(param.id);
   }
 
   @Post()
@@ -31,12 +30,12 @@ export class RemarqueController {
   }
 
   @Put()
-  async update(@Body() remarque: RemarqueDocument) {
+  update(@Body() remarque: RemarqueDocument) {
     return this.remarqueService.updateRemarque(remarque);
   }
 
   @Delete()
-  async delete(@Body() id: string) {
+  delete(@Body() id: string) {
     return this.remarqueService.deleteRemarque(id);
   }
 }
